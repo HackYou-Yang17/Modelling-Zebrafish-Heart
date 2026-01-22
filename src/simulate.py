@@ -10,13 +10,13 @@ def run_model(params, model_name, model):
     elif model_name == "quartic":
         params["J4"] == 1
     curr_mdl = model(**params)
-    curr_mdl.run(steps=100000, save_every=2500)  # save_every = L**2
+    curr_mdl.run(steps=100000, save_every=100)  # save_every = L**2
     curr_mdl.save_data(params, model_name + "_data")
 
 
 if __name__ == "__main__":
     params = {
-        "size": 50,
+        "size": 10,
         "T": 2.0,  # Temperature
         "J": 1.0,  # Coupling strength
         "bias": 0.7,

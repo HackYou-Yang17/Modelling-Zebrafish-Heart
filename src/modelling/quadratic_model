@@ -1,8 +1,8 @@
-from modelling.xy_model import Xy_Model
+from modelling.nematic_model import Nematic_Model
 import numpy as np
 
 
-class Quartic_Model(Xy_Model):
+class Quadratic_Model(Nematic_Model): # Quasi-quartic
     def __init__(self, size=10, T=2, J2=1, bias=0, S=0.5, J4=1):
         super().__init__(size, T, J2, bias, S)
 
