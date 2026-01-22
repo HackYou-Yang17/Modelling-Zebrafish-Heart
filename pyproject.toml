@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zebrafish-heart-modelling"
+version = "0.2.6"
+description = "Zebrafish heart development modelling"
+authors = [
+    {name = "Yueyang Liu", email = "yl9625@imperial.ac.uk"},
+]
+readme = "README.md"
+requires-python = ">=3.13.9"
+dependencies = [
+    "numpy>=1.21.0",
+    "scipy>=1.7.0",
+    "matplotlib>=3.5.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black>=22.0.0",
+    "pytest>=8.4.2",
+    "pytest-cov>=7.0.0",
+    "pandas>=2.3.3"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["modelling", "tests"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-rA -v"
+pythonpath = ["src"]
+filterwarnings = ["ignore::DeprecationWarning"]

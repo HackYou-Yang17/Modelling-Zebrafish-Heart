@@ -1,0 +1,19 @@
+# General Data Manipulation
+scipy
+numpy
+pandas
+vispy
+
+# Graphical Analysis
+matplotlib
+
+# Formatting
+black
+
+# Testing
+pytest
+pytest-cov
+
+# Set up
+wheel
+setuptools
