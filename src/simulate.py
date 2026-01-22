@@ -8,26 +8,26 @@ def run_model(params, model_name, model):
     if model_name == "ising":
         params.__delitem__("S")
     elif model_name == "quartic":
-        params['J4'] == 1
+        params["J4"] == 1
     curr_mdl = model(**params)
-    curr_mdl.run(steps=100000, save_every=2500) # save_every = L**2
+    curr_mdl.run(steps=100000, save_every=2500)  # save_every = L**2
     curr_mdl.save_data(params, model_name + "_data")
 
 
 if __name__ == "__main__":
     params = {
-        'size': 50,
-        'T': 2.0,   # Temperature
-        'J': 1.0,   # Coupling strength
-        'bias': 0.7,
-        'S': 0.3, # G-width
-        }
+        "size": 50,
+        "T": 2.0,  # Temperature
+        "J": 1.0,  # Coupling strength
+        "bias": 0.7,
+        "S": 0.3,  # G-width
+    }
 
     models = {
-        'ising': Ising_Model,
-        'xy': Xy_Model,
-        'nematic': Nematic_Model,
-        'quartic': Quartic_Model,
+        "ising": Ising_Model,
+        "xy": Xy_Model,
+        "nematic": Nematic_Model,
+        "quartic": Quartic_Model,
     }
 
     while True:

@@ -10,7 +10,9 @@ class Xy_Model(Ising_Model):
         self.bias = bias
         self.sigma = S  # Gaussian width
 
-        self.angles = np.random.uniform(0, 2*np.pi, size=(self.L, self.L)) # Initial state
+        self.angles = np.random.uniform(
+            0, 2 * np.pi, size=(self.L, self.L)
+        )  # Initial state
         self.energy = self.energy_func()
         self.mag = self.magnetisation()
 
@@ -19,36 +21,43 @@ class Xy_Model(Ising_Model):
         self.energy_lib = [self.energy]
         self.mag_lib = [self.mag]
 
-        print(f"Created a {self.L} x {self.L} X-Y model, " +
-              f"at J = {self.J}, " +
-              f"with initial magnetisation of {self.mag_lib[0]:.4f}")
+        print(
+            f"Created a {self.L} x {self.L} X-Y model, "
+            + f"at J = {self.J}, "
+            + f"with initial magnetisation of {self.mag_lib[0]:.4f}"
+        )
 
     def energy_func(self):
-        energy = 0 # Initialisation
-        energy = -self.J * 0.5 * np.sum(
-            np.cos(self.angles - np.roll(self.angles, 1, axis=0)) + # Vertical
-            np.cos(self.angles - np.roll(self.angles, 1, axis=1)) # Horizontal
-        ) # 1: rolls left and up, -1: rolls right and down
+        energy = 0  # Initialisation
+        energy = (
+            -self.J
+            * 0.5
+            * np.sum(
+                np.cos(self.angles - np.roll(self.angles, 1, axis=0))  # Vertical
+                + np.cos(self.angles - np.roll(self.angles, 1, axis=1))  # Horizontal
+            )
+        )  # 1: rolls left and up, -1: rolls right and down
         return energy
 
     def proposal(self, angle):
         # Asymmetric proposal
-        return (angle + np.random.normal(self.bias, self.sigma)) % (2*np.pi) # Mapping
+        return (angle + np.random.normal(self.bias, self.sigma)) % (
+            2 * np.pi
+        )  # Mapping
 
     def hastings_ratio(self, angle, proposed):
-        diff = (proposed - angle + np.pi) % (2*np.pi) - np.pi # Wrap to [-π, π)
-        q_forward = np.exp(-0.5 * ((diff - self.bias)**2) / self.sigma**2)
-        diff = (angle - proposed + np.pi) % (2*np.pi) - np.pi
-        q_reverse = np.exp(-0.5 * ((diff - self.bias)**2) / self.sigma**2)
+        diff = (proposed - angle + np.pi) % (2 * np.pi) - np.pi  # Wrap to [-π, π)
+        q_forward = np.exp(-0.5 * ((diff - self.bias) ** 2) / self.sigma**2)
+        diff = (angle - proposed + np.pi) % (2 * np.pi) - np.pi
+        q_reverse = np.exp(-0.5 * ((diff - self.bias) ** 2) / self.sigma**2)
         return q_reverse / q_forward
-    
+
     def local_dE(self, angle, proposed, neighbours):
         dE = 0
         for neighbour in neighbours:
-            dE += -self.J * (np.cos(proposed - neighbour) - 
-                             np.cos(angle - neighbour))
+            dE += -self.J * (np.cos(proposed - neighbour) - np.cos(angle - neighbour))
         return dE
-    
+
     def magnetisation(self):
         sum_cos = np.sum(np.cos(self.angles)) / self.L**2
         sum_sin = np.sum(np.sin(self.angles)) / self.L**2
@@ -59,11 +68,11 @@ class Xy_Model(Ising_Model):
         angle = self.angles[i, j]
 
         neighbours = [
-            self.angles[(i-1) % self.L, j],
-            self.angles[(i+1) % self.L, j],
-            self.angles[i, (j-1) % self.L],
-            self.angles[i, (j+1) % self.L],
-                    ]
+            self.angles[(i - 1) % self.L, j],
+            self.angles[(i + 1) % self.L, j],
+            self.angles[i, (j - 1) % self.L],
+            self.angles[i, (j + 1) % self.L],
+        ]
 
         proposed = self.proposal(angle)
         hastings_ratio = self.hastings_ratio(angle, proposed)
