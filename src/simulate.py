@@ -1,26 +1,25 @@
 from modelling.ising_model import Ising_Model
 from modelling.xy_model import Xy_Model
-from modelling.nematic_model import Nematic_Model
-from modelling.quartic_model import Quartic_Model
+from modelling.symmetric_models import Nematic_Model
+from modelling.symmetric_models import Quartic_Model
+from modelling.quadratic_model import Quadratic_Model
 
 
 def run_model(params, model_name, model):
     if model_name == "ising":
         params.__delitem__("S")
-    elif model_name == "quartic":
-        params["J4"] == 1
     curr_mdl = model(**params)
-    curr_mdl.run(steps=100000, save_every=100)  # save_every = L**2
+    curr_mdl.run(steps=100000, save_every=625)  # save_every = L**2
     curr_mdl.save_data(params, model_name + "_data")
 
 
 if __name__ == "__main__":
     params = {
-        "size": 10,
+        "size": 25,
         "T": 2.0,  # Temperature
         "J": 1.0,  # Coupling strength
-        "bias": 0.7,
-        "S": 0.3,  # G-width
+        "bias": 0.7,  # For asymmetric proposal
+        "S": 0.3,  # Gaussian width
     }
 
     models = {
@@ -28,6 +27,7 @@ if __name__ == "__main__":
         "xy": Xy_Model,
         "nematic": Nematic_Model,
         "quartic": Quartic_Model,
+        "quadratic": Quadratic_Model,
     }
 
     while True:
