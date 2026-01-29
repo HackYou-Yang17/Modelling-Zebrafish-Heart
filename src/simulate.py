@@ -15,11 +15,11 @@ def run_model(params, model_name, model):
 
 if __name__ == "__main__":
     params = {
-        "size": 25,
-        "T": 2.0,  # Temperature
-        "J": 1.0,  # Coupling strength
-        "bias": 0.7,  # For asymmetric proposal
-        "S": 0.3,  # Gaussian width
+        "size": 25,     # Lattice length
+        "T": 2.0,       # Temperature
+        "J": 1.0,       # Coupling strength
+        "bias": 0.7,    # For asymmetric proposal
+        "S": 0.3,       # Gaussian width
     }
 
     models = {

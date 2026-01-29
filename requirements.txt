@@ -6,6 +6,7 @@ vispy
 
 # Graphical Analysis
 matplotlib
+pyglet
 
 # Formatting
 black
